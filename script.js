@@ -6,6 +6,7 @@ const list = document.querySelector(".list");
 const swichToConditional = 1000;
 const swichToSK = 41;
 const swichAngle = -0.0419;
+let lastCange;
 let { x, y, tryx, tryy } = form;
 
 convertBtn.addEventListener("click", convert);
@@ -19,46 +20,35 @@ function pasteStr(e) {
 
   const paste = (e.clipboardData || window.clipboardData).getData("text");
   const input = e.target.closest("input");
-
-  if (input === x || input === y) {
+ 
+ 
     if (paste.length >= 17) {
       const coordinates = splitString(paste);
-
+      lastCange = input;
       x.value = coordinates[0];
       y.value = coordinates[1];
-    }
-    getSK();
-  }
-  if (input === tryx || input === tryy) {
-    if (paste.length >= 17) {
-      const coordinates = splitString(paste);
-
       tryx.value = coordinates[0];
       tryy.value = coordinates[1];
+      checkLastCange();
     }
-    getConditional();
-  }
+   
+ 
+ 
 }
 
 function change(e) {
   const input = e.target.closest("input");
 
   if (!input && input.value.length < 5) return;
-
-  if (input === x || input === y) {
-    getSK();
-  }
-  if (input === tryx || input === tryy) {
-    getConditional();
-  }
+  lastCange = input;
+  checkLastCange();
 }
 
 function convert(e) {
+  console.log(e.target)
   e.preventDefault();
 
-  getConditional();
-
-  getSK();
+  checkLastCange();
 }
 
 function getConditional() {
@@ -93,9 +83,9 @@ function getSK() {
 
 function addToList() {
   const listItem = document.createElement("li");
-  listItem.innerHTML = `<div>№ ${
+  listItem.innerHTML = `<div><span>№</span> ${
     targetName.value && targetName.value
-  }:</div><div>Ум. ${x.value} ${y.value};</div><div>УСК ${tryx.value} ${
+  }:</div><div><span>Ум.</span> ${x.value} ${y.value};</div><div><span>УСК</span> ${tryx.value} ${
     tryy.value
   }.</div>`;
   list.appendChild(listItem);
@@ -107,3 +97,11 @@ function splitString(string) {
 
   return matches;
 }
+ function checkLastCange (){
+  if (lastCange === x || lastCange === y) {
+    getSK();
+  }
+  if (lastCange === tryx || lastCange === tryy) {
+    getConditional();
+  }
+ }

@@ -15,6 +15,7 @@ input[type=number] {
 body{
     background: #32502b;
     color: #fff;
+    font-size: 22px;
 }
 .wrapper{
     margin: 0 auto;
@@ -38,7 +39,7 @@ input{
     border-radius: 5px;
     padding: 5px;
     color: #fff;
-    margin: 0 5px 5px;
+    margin: 0 5px 10px;
     
    
 }
@@ -52,7 +53,7 @@ input:focus-visible{
 button{
     width: 90%;
     cursor: pointer;
-   
+   font-size: 18px;
 }
 ul{
     list-style: none;
@@ -61,13 +62,29 @@ ul{
 }
 li{
     display: flex;
+    flex-wrap: wrap;
     background-color: #3b6033;
     border:2px solid #45703b;
     border-radius: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 li>div{
     padding: 5px;
+}
+.targetContainer{
+    display:flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.targetText{
+    margin-left: 10px;
+}
+.target{
+    flex-grow: 1;
+    max-width:75%;
+}
+span{
+    color: #818184;
 }
 
 @media (max-width: 480px) {
@@ -79,7 +96,16 @@ li>div{
     input{
         width: 90%;
     }
+    .target{
+       max-width:100%;
+    }
     button{
         width: 95%;
+    }
+    h2{
+        font-size: 16px;
+    }
+    li{
+        justify-content: end;
     }
 }
