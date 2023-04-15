@@ -23,9 +23,15 @@ body{
 }
 h2{
     text-align: center;
+    width: 90%;
+}
+form{
+    display: flex;
+    flex-wrap: wrap;
 }
 button,
 input{
+    display: block;
     outline:none;
     background-color: #3b6033;
     border-color: #45703b;
@@ -33,6 +39,7 @@ input{
     padding: 5px;
     color: #fff;
     margin: 0 5px 5px;
+    
    
 }
 input{
@@ -44,7 +51,8 @@ input:focus-visible{
 }
 button{
     width: 90%;
-    display: block;
+    cursor: pointer;
+   
 }
 ul{
     list-style: none;
@@ -60,4 +68,18 @@ li{
 }
 li>div{
     padding: 5px;
+}
+
+@media (max-width: 480px) {
+    .wrapper{
+        margin: 0 auto;
+        width: 90vw;
+       
+    }
+    input{
+        width: 90%;
+    }
+    button{
+        width: 95%;
+    }
 }
