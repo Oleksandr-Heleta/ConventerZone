@@ -1,17 +1,14 @@
-window.addEventListener('load', async () => {
-  if ('serviceWorker' in navigator) {
+window.addEventListener("load", async () => {
+  if ("serviceWorker" in navigator) {
     try {
-      const reg = await navigator.serviceWorker.register('sw.js')
-      console.log('Service worker register success', reg)
+      const reg = await navigator.serviceWorker.register("sw.js");
+      // console.log("Service worker register success", reg);
     } catch (e) {
-      console.log('Service worker register fail')
+      console.log("Service worker register fail");
     }
   }
-
- 
-})
-
-
+  renderList();
+});
 
 const form = document.querySelector(".form");
 const convertBtn = document.querySelector(".convert");
@@ -24,31 +21,29 @@ const swichAngle = -0.0419;
 let lastCange;
 let { x, y, tryx, tryy } = form;
 
+
 convertBtn.addEventListener("click", convert);
 form.addEventListener("submit", convert);
 addTarget.addEventListener("click", addToList);
 form.addEventListener("change", change);
 form.addEventListener("paste", pasteStr);
+list.addEventListener('click', removeTarget);
 
 function pasteStr(e) {
   e.preventDefault();
 
   const paste = (e.clipboardData || window.clipboardData).getData("text");
   const input = e.target.closest("input");
- 
- 
-    if (paste.length >= 17) {
-      const coordinates = splitString(paste);
-      lastCange = input;
-      x.value = coordinates[0];
-      y.value = coordinates[1];
-      tryx.value = coordinates[0];
-      tryy.value = coordinates[1];
-      checkLastCange();
-    }
-   
- 
- 
+
+  if (paste.length >= 17) {
+    const coordinates = splitString(paste);
+    lastCange = input;
+    x.value = coordinates[0];
+    y.value = coordinates[1];
+    tryx.value = coordinates[0];
+    tryy.value = coordinates[1];
+    checkLastCange();
+  }
 }
 
 function change(e) {
@@ -60,7 +55,6 @@ function change(e) {
 }
 
 function convert(e) {
-  
   e.preventDefault();
 
   checkLastCange();
@@ -97,13 +91,30 @@ function getSK() {
 }
 
 function addToList() {
-  const listItem = document.createElement("li");
-  listItem.innerHTML = `<div><span>№</span> ${
-    targetName.value && targetName.value
-  }:</div><div><span>Ум.</span> ${x.value} ${y.value};</div><div><span>УСК</span> ${tryx.value} ${
-    tryy.value
-  }.</div>`;
-  list.appendChild(listItem);
+  const targetsList = JSON.parse(localStorage.getItem("targets")) || [];
+  targetsList.unshift({
+    name: targetName.value,
+    x: x.value,
+    y: y.value,
+    tryx: tryx.value,
+    tryy: tryy.value,
+  });
+  localStorage.setItem("targets", JSON.stringify(targetsList));
+  renderList();
+}
+
+function renderList() {
+  const targetsList = JSON.parse(localStorage.getItem("targets")) || [];
+  const listItem = targetsList.reduce((listHtml, el) => {
+   return listHtml += `<li id="${el.name}"><div class='name'><span>№</span> ${el.name}:</div>
+   <div><span>Ум.</span> ${el.x} ${el.y};</div>
+   <div><span>УСК</span> ${el.tryx} ${el.tryy}.</div>
+   <div class='xbtn'><button>x</button></div>
+   </li>`;
+  }, "");
+ 
+  list.innerHTML = listItem;
+ 
 }
 
 function splitString(string) {
@@ -112,11 +123,21 @@ function splitString(string) {
 
   return matches;
 }
- function checkLastCange (){
+function checkLastCange() {
   if (lastCange === x || lastCange === y) {
     getSK();
   }
   if (lastCange === tryx || lastCange === tryy) {
     getConditional();
   }
- }
+}
+
+function removeTarget(e){
+const btn = e.target.closest('.xbtn');
+if (!btn) return;
+const targetId = e.target.closest('li').id;
+const targetsList = JSON.parse(localStorage.getItem("targets")) || [];
+const filteretList = targetsList.filter(el=>el.name!=targetId);
+localStorage.setItem("targets", JSON.stringify(filteretList));
+renderList();
+}

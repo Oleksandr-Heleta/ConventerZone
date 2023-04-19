@@ -63,10 +63,12 @@ ul{
 li{
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     background-color: #3b6033;
     border:2px solid #45703b;
     border-radius: 5px;
     margin-bottom: 10px;
+    font-size: 18px;
 }
 li>div{
     padding: 5px;
@@ -108,4 +110,10 @@ span{
     li{
         justify-content: end;
     }
+   /* .name{
+       order:-2;
+   }
+    .xbtn{
+        order: -1;
+    } */
 }
